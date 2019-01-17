@@ -8,12 +8,12 @@ except ImportError:
 config = {
     'description': 'e-mail facility',
     'author': 'Adisakshya Chauhan',
-    'url': 'URL to get it at.',
-    'download_url': 'Where to download it.',
+    'url': 'https://github.com/adisakshya/pymail',
+    'download_url': 'https://github.com/adisakshya/pymail',
     'author_email': 'adisakshya chauhan',
     'version': '1.0',
     'install_requires': [],
-    'packages': [],
+    'packages': ['pymail'],
     'scripts': ['bin/pymail.py'],
     'name': 'pymail'
     }
