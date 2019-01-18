@@ -1,49 +1,70 @@
+import smtplib
+from sys import argv
+from requests import get
+from string import Template
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
-from helper import *
+MY_ADDRESS = argv[1]
+PASSWORD = argv[2]
+
+def get_contacts(filename):
+    """
+    Return two lists names, emails containing names and email addresses
+    read from a file specified by filename.
+    """
+    
+    names = []
+    emails = []
+    with open(filename, mode='r', encoding='utf-8') as contacts_file:
+        for a_contact in contacts_file:
+            names.append(a_contact.split()[0])
+            emails.append(a_contact.split()[1])
+    return names, emails
+
+def read_template(filename):
+    """
+    Returns a Template object comprising the contents of the 
+    file specified by filename.
+    """
+    
+    with open(filename, 'r', encoding='utf-8') as template_file:
+        template_file_content = template_file.read()
+    return Template(template_file_content)
 
 def main():
+    names, emails = get_contacts('my_contacts.txt') # read contacts
+    message_template = read_template('message.txt')
 
-	sender_mail_id, password = get_sender_mail_id_password()
-	receiver_mail_id_list = get_receiver_mail_id_list()
+    # set up the SMTP server
+    s = smtplib.SMTP(host=get('http://api.ipify.org').text, port=465)
+    s.starttls()
+    s.login(MY_ADDRESS, PASSWORD)
 
-	# instance of MIMEMultipart 
-	obj = MIMEMultipart()
+    # For each contact, send the email:
+    for name, email in zip(names, emails):
+        msg = MIMEMultipart()       # create a message
 
-	# storing the senders email address  
-	obj['From'] = sender_mail_id
-	
-	# storing the receivers email address  
-	obj['To'] = reciver_mai_id_list[0] 
-  
-	# storing the subject
-	obj['Subject'] = get_subject()
-  
-	# string to store the body of the mail 
-	body = get_body()
+        # add in the actual person name to the message template
+        message = message_template.substitute(PERSON_NAME=name.title())
 
-	# attach the body with the msg instance 
-	obj.attach(MIMEText(body, 'plain'))
+        # Prints out the message body for our sake
+        print(message)
 
-	# open the file to be sent  
-	print("Enter file name (with extension): ")
-	filename = input()
-	attachment = open(filename, "rb")
-
-	# instance of MIMEBase and named as p 
-	obj2 = MIMEBase('application', 'octet-stream') 
-  
-	# To change the payload into encoded form 
-	obj2.set_payload((attachment).read()) 
-  
-	# encode into base64 
-	encoders.encode_base64(obj2) 
-   
-	obj2.add_header('Content-Disposition', "attachment; filename= %s" % filename) 
-  
-	# attach the instance 'p' to instance 'msg' 
-	obj.attach(obj2)
-
-	send_mail(obj, obj2)
-
+        # setup the parameters of the message
+        msg['From']=MY_ADDRESS
+        msg['To']=email
+        msg['Subject']="This is TEST"
+        
+        # add in the message body
+        msg.attach(MIMEText(message, 'plain'))
+        
+        # send the message via the server set up earlier.
+        s.send_message(msg)
+        del msg
+        
+    # Terminate the SMTP session and close the connection
+    s.quit()
+    
 if __name__ == '__main__':
-	main()
+    main()
