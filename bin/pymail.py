@@ -65,6 +65,12 @@ def main():
         
     # Terminate the SMTP session and close the connection
     s.quit()
+
+def usage():
+    print('Usage: py pymail.py [e-mail] [password]')
     
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except:
+        usage()
