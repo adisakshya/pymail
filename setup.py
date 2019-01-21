@@ -1,21 +1,22 @@
+import setuptools
 
+with open("README.md", "r") as fh:
+    long_description = fh.read()
 
-try:
-    from setuptools import setup
-except ImportError:
-    from distutils.core import setup
-
-config = {
-    'description': 'e-mail facility',
-    'author': 'Adisakshya Chauhan',
-    'url': 'https://github.com/adisakshya/pymail',
-    'download_url': 'https://github.com/adisakshya/pymail',
-    'author_email': 'adisakshya chauhan',
-    'version': '1.0',
-    'install_requires': [],
-    'packages': ['pymail'],
-    'scripts': ['bin/pymail.py'],
-    'name': 'pymail'
-    }
-
-setup(**config)
+setuptools.setup(
+    name="Pymail",
+    version="1.0.0",
+    author="Adisakshya Chauhan",
+    author_email="adisakshya98@gmail.com",
+    description="A python application that lets you send e-mails from the terminal.",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
+    url="https://github.com/adisakshya/pymail",
+    packages=setuptools.find_packages(),
+    scripts=['bin/pymail.py'],
+    classifiers=[
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
+    ],
+)
