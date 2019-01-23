@@ -67,6 +67,7 @@ def main():
 		with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
 			server.login(sender_email, password)
 			server.sendmail(sender_email, receivers_email_list[i], text)
+			print("Email sent to: ", receivers_email_list[i])
 
 if __name__ == '__main__':
 	main()
