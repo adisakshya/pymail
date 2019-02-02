@@ -6,9 +6,6 @@ Welcome to the pymail repo!
 
 pymail is a python application that allows you to send email with attachments from the terminal.
 
-Note: Currently email can only be sent using g-mail mail address
----
-
 ## Installation
 
 ### Step 1: 
@@ -33,6 +30,9 @@ After successful execution you will get a confirmation message:
 ```
 Email sent to: [The email address of the receiver]
 ```
+
+Note: Currently email can only be sent using g-mail mail address
+---
 
 ---
 ## To-Do
