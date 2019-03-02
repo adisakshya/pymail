@@ -34,7 +34,6 @@ Email sent to: [The email address of the receiver]
 Note: Currently email can only be sent using g-mail mail address
 ---
 
----
 ## To-Do
     1. code for multiple attachments
     2. wide support for email services like - outlook, yahoo
