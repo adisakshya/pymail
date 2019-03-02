@@ -12,10 +12,6 @@ pymail is a python application that allows you to send email with attachments fr
 Download the repository using github or git eg.git clone https://github.com/adisakshya/pymail
 
 ### Step 2: 
-Install the modules by running `pip install -r requirements.txt`
-
-
-### Step 3: 
 Install the script by running `python setup.py install`
 
 ---
