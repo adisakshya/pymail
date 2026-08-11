@@ -24,7 +24,27 @@ def get_receiver_email_list():
 			break
 
 	return receivers_list		
+def get_attachment_part():
+	while True:
+		filename = input('Enter filename for attachments: ')
 
+		try:
+			with open(filename, 'rb') as attachment:
+				part = MIMEBase("application", "octet-stream")
+				part.set_payload(attachment.read())
+				encoders.encode_base64(part)
+				part.add_header(
+					"Content-Disposition",
+					f"attachment; filename= {filename}",
+				)
+				return part
+
+		except FileNotFoundError:
+			print(f"Error: '{filename}' was not found.")
+			retry = input('Try a different filename? (Y/N): ')
+			if retry not in ['y', 'Y']:
+				print("Continuing without attachment.")
+				return None
 def main():
 
 	sender_email, password = get_sender_details()
@@ -45,21 +65,13 @@ def main():
 		# Add body to email
 		message.attach(MIMEText(body, "plain"))
 
+		part = None
 		if input('Any attachments?(Y/N): ') in ['y', 'Y']:
-			
-			filename = input('Enter filename for attachments: ')
-			with open(filename, 'rb') as attachment:
-				part = MIMEBase("application","octet-stream")
-				part.set_payload(attachment.read())
-
-			# Add header as key/value pair to attachment part
-			part.add_header(
-    			"Content-Disposition",
-    			f"attachment; filename= {filename}",
-			)
+			part = get_attachment_part()
 
 		# Add attachment to message and convert message to string
-		message.attach(part)
+		if part is not None : 
+			message.attach(part)
 		text = message.as_string()
 
 		# Log in to server using secure context and send email
