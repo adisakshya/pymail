@@ -6,8 +6,11 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 def get_sender_details():
-
-	return sys.argv[1], sys.argv[2]
+    if len(sys.argv) < 3:
+        print("Usage: pymail <sender_email> <password>")
+        print("Missing CLI arguments: sender email and password are required.")
+        sys.exit(1)
+    return sys.argv[1], sys.argv[2]
 
 def get_receiver_email_list():
 
